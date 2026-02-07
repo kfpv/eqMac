@@ -94,8 +94,6 @@ class Application {
     
     Driver.check {
       Sources.getInputPermission {
-        AudioDevice.register = true
-
         if enabled {
           setupAudio()
         }
@@ -155,12 +153,11 @@ class Application {
     Driver.show {
       // Initialize XPC Client and Per-App Volume Managers
       self.xpcClient = XPCClient()
-      self.xpcClient?.installHelperIfNeeded { [weak self] success, error in
-        guard let self = self else { return }
+      self.xpcClient?.installHelperIfNeeded { success, error in
         if success {
           Console.log("XPC Helper installed or already present.")
           // Ensure engine is available before initializing managers that depend on it
-          if self.engine == nil {
+          if Application.engine == nil {
             // This might indicate a logic error if engine is expected to be ready here.
             // For now, let's assume createAudioPipeline or similar will set it up.
             // If PerApplicationVolumeManager needs the engine immediately,
@@ -790,3 +787,26 @@ class Application {
   }
 }
 
+// MARK: - Stubs for missing per-app volume feature classes (open-source build)
+// The full implementations exist in the private/pro fork and are not part of this target.
+// These lightweight stubs allow the app to compile without those features.
+
+final class XPCClient: NSObject {
+  func installHelperIfNeeded(completion: @escaping (Bool, Error?) -> Void) {
+    completion(false, nil)
+  }
+}
+
+final class PerApplicationVolumeManager {
+  let outputMixer: AVAudioMixerNode? = nil
+
+  init(engine: AVAudioEngine, xpcClient: XPCClient) {}
+}
+
+final class AudioTapCoordinator {
+  init(xpcClient: XPCClient, volumeManager: PerApplicationVolumeManager) {}
+}
+
+final class PerAppVolumeDataBus {
+  init(volumeManager: PerApplicationVolumeManager, tapCoordinator: AudioTapCoordinator) {}
+}

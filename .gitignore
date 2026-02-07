@@ -1,12 +1,84 @@
+# OS Files
 .DS_Store
 .DS_Store/
 */.DS_Store
+Thumbs.db
 
-node_modules
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+*.swiftpm/
+playground.xcworkspace/
+
+# Xcode User Data
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.playground/xcuserdata/
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# CocoaPods
+Pods/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Node & Frontend
+node_modules/
 .env
-dist
+.env.local
+.env.*.local
+dist/
+coverage/
 !modules/**/dist
-**/package-lock.json
-**/yarn.lock
 
+# Build outputs
+*.app/
+*.framework/
+*.bundle/
+*.a
+*.lib
+*.so
+*.dylib
+*.dSYM/
+*.xcarchive/
+*.xcresult/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+
+# Generated files
+.turbo/
+.next/
+out/
+
+# Local dev files
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Environment overrides
+.env.local
+.env.*.local
+
+# Specific paths for this project
+native/DerivedData/
+native/DerivedData-Driver/
+native/app/Embedded/
+native/app/Assets/Embedded/ui.zip
 native/app/Sandbox.playground/Resources/track.mp3
+ui/dist/
+ui/.angular/

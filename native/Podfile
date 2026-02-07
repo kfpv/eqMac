@@ -27,7 +27,7 @@ target 'eqMac' do
   project 'app/eqMac.xcodeproj'
 
   pod 'SwiftHTTP', '~> 3.0'
-  pod 'AMCoreAudio', '~> 3.4.0' # バージョンは最新のものに適宜調整してください
+  pod 'AMCoreAudio', :podspec => 'AMCoreAudio.podspec'
   pod 'WebViewJavascriptBridge', '~> 6.0'
 #  pod 'ReachabilitySwift'
   pod 'ReSwift', '~> 6.1'
@@ -42,5 +42,4 @@ target 'eqMac' do
   shared_pods
 
 end
-
 

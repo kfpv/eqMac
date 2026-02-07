@@ -7,8 +7,6 @@
   "workspaces": {
     "packages": [
       "modules/*",
-      "api",
-      "site",
       "ui"
     ],
     "nohoist": []

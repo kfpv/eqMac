@@ -12,6 +12,10 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "target": "es5",
+    "types": [
+      "node",
+      "google.analytics"
+    ],
     "typeRoots": [
       "node_modules/@types",
       "../node_modules/@types"
