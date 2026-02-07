@@ -46,6 +46,8 @@ class EqualizersDataBus: DataBus {
         var eqType: EqualizerType = .basic
         if (type == EqualizerType.advanced.rawValue) {
           eqType = .advanced
+        } else if (type == EqualizerType.parametric.rawValue) {
+          eqType = .parametric
         }
 
         Application.dispatchAction(EqualizersAction.setType(eqType))
@@ -57,6 +59,7 @@ class EqualizersDataBus: DataBus {
     
     self.add("/basic", BasicEqualizerDataBus.self)
     self.add("/advanced", AdvancedEqualizerDataBus.self)
+    self.add("/parametric", ParametricEqualizerDataBus.self)
 
     typeChangedListener = Equalizers.typeChanged.on { type in
       self.send(to: "/type", data: [ "type": type.rawValue ])

@@ -1,0 +1,71 @@
+<eqm-loading *ngIf="!selectedPreset || !presets"></eqm-loading>
+<div *ngIf="selectedPreset && presets" fxLayout="column" fxLayoutAlign="start center" class="w-100 h-100 container">
+
+  <!-- Preamp row -->
+  <div fxLayout="row" class="preamp-row w-100" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+    <eqm-value-screen [enabled]="enabled">Preamp:</eqm-value-screen>
+    <div style="width: 75%">
+      <eqm-flat-slider [enabled]="enabled" [min]="-24" [max]="24" [(value)]="preamp"
+        (userChangedValue)="setPreamp($event.value)" [stickToMiddle]="true"
+        orientation="horizontal">
+      </eqm-flat-slider>
+    </div>
+    <eqm-value-screen [enabled]="enabled">{{screenValue(preamp)}}</eqm-value-screen>
+  </div>
+
+  <!-- Filter table header -->
+  <div fxLayout="row" class="filter-header w-100" fxLayoutAlign="start center">
+    <div class="col-on">On</div>
+    <div class="col-type">Type</div>
+    <div class="col-freq">Freq (Hz)</div>
+    <div class="col-gain">Gain (dB)</div>
+    <div class="col-q">Q</div>
+  </div>
+
+  <!-- Filter rows -->
+  <div class="filters-container w-100" fxLayout="column">
+    <div *ngFor="let filter of filters; index as i; trackBy: filterTracker"
+         fxLayout="row" class="filter-row w-100" fxLayoutAlign="start center"
+         [class.disabled]="!filter.enabled">
+      <!-- On/Off toggle -->
+      <div class="col-on">
+        <eqm-toggle [enabled]="enabled" [state]="filter.enabled" (stateChange)="toggleFilter(i)"></eqm-toggle>
+      </div>
+
+      <!-- Filter type -->
+      <div class="col-type">
+        <eqm-dropdown [enabled]="enabled && filter.enabled"
+          [items]="filterTypes" [selectedItem]="getFilterTypeItem(filter.type)"
+          (itemSelected)="setFilterProperty(i, 'type', $event.text)"
+          [editable]="false">
+        </eqm-dropdown>
+      </div>
+
+      <!-- Frequency -->
+      <div class="col-freq">
+        <eqm-value-screen [enabled]="enabled && filter.enabled" [fontSize]="11">
+          {{formatFrequency(filter.frequency)}}
+        </eqm-value-screen>
+      </div>
+
+      <!-- Gain slider -->
+      <div class="col-gain">
+        <eqm-flat-slider [enabled]="enabled && filter.enabled" [min]="-24" [max]="24"
+          [(value)]="filter.gain"
+          (userChangedValue)="setFilterProperty(i, 'gain', $event.value)"
+          [stickToMiddle]="true" orientation="horizontal">
+        </eqm-flat-slider>
+        <eqm-value-screen [enabled]="enabled && filter.enabled" [fontSize]="9">
+          {{screenValue(filter.gain)}}
+        </eqm-value-screen>
+      </div>
+
+      <!-- Q value -->
+      <div class="col-q">
+        <eqm-value-screen [enabled]="enabled && filter.enabled" [fontSize]="11">
+          {{filter.q.toFixed(3)}}
+        </eqm-value-screen>
+      </div>
+    </div>
+  </div>
+</div>
