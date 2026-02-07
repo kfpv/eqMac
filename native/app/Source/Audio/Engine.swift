@@ -81,11 +81,10 @@ class Engine {
         engine.connect(engine.inputNode, to: equalizers.active!.eq, format: format)
     }
     engine.connect(equalizers.active!.eq, to: engine.mainMixerNode, format: format)
-    // The mainMixerNode is now the final output of the processed audio (after EQ).
-    // This mainMixerNode is what the Output class will tap from.
-    // Ensure its volume is not 0 if it's the final stage before Output taps it.
-    // Output class taps engine.mainMixerNode by default.
-    engine.mainMixerNode.outputVolume = 1.0 // Ensure it passes audio through
+    // The mainMixerNode is *not* used for audible output. The Output class taps
+    // the render callback and plays via its own engine. Leaving this at 1.0
+    // can create an audio loop (driver input feeding driver output).
+    engine.mainMixerNode.outputVolume = 0.0
 
 
     // Render callback
