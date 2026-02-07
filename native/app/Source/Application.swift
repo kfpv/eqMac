@@ -579,6 +579,10 @@ class Application {
         if let preset = AdvancedEqualizer.getPreset(id: equalizersState.advanced.selectedPresetId) {
           return preset.gains.global
         }
+      case .parametric:
+        if let preset = ParametricEqualizer.getPreset(id: equalizersState.parametric.selectedPresetId) {
+          return preset.preamp
+        }
       }
       return 0
     })()

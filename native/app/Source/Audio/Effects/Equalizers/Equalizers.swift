@@ -23,11 +23,13 @@ import SwiftyUserDefaults
 enum EqualizerType : String, Codable {
   case basic = "Basic"
   case advanced = "Advanced"
+  case parametric = "Parametric"
 }
 
 let AllEqualizerTypes = [
   EqualizerType.basic.rawValue,
   EqualizerType.advanced.rawValue,
+  EqualizerType.parametric.rawValue,
 ]
 
 class Equalizers: Effect, StoreSubscriber {
@@ -88,6 +90,8 @@ class Equalizers: Effect, StoreSubscriber {
       active = BasicEqualizer()
     case .advanced:
       active = AdvancedEqualizer()
+    case .parametric:
+      active = ParametricEqualizer()
     }
   }
 

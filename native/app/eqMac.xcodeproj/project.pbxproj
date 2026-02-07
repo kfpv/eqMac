@@ -62,6 +62,11 @@
 		E057A63B22703F590019D13C /* BasicEqualizerDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A63A22703F590019D13C /* BasicEqualizerDataBus.swift */; };
 		E057A6472270582C0019D13C /* EqualizersDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A6462270582C0019D13C /* EqualizersDataBus.swift */; };
 		E057A64922710F2B0019D13C /* AdvancedEqualizerDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A64822710F2B0019D13C /* AdvancedEqualizerDataBus.swift */; };
+		AA0000010000000000000001 /* ParametricEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000001 /* ParametricEqualizer.swift */; };
+		AA0000010000000000000002 /* ParametricEqualizerPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000002 /* ParametricEqualizerPreset.swift */; };
+		AA0000010000000000000003 /* ParametricEqualizerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000003 /* ParametricEqualizerState.swift */; };
+		AA0000010000000000000004 /* ParametricEqualizerDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000004 /* ParametricEqualizerDataBus.swift */; };
+		AA0000010000000000000005 /* AutoEQParametricParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000005 /* AutoEQParametricParser.swift */; };
 		E057A64D2271A6DD0019D13C /* VolumeDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */; };
 		E057A6512271A7DC0019D13C /* OutputsDataBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E057A6502271A7DC0019D13C /* OutputsDataBus.swift */; };
 		E06E98D021D17E230041DD9C /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06E98CF21D17E230041DD9C /* UI.swift */; };
@@ -154,6 +159,11 @@
 		E057A63A22703F590019D13C /* BasicEqualizerDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicEqualizerDataBus.swift; sourceTree = "<group>"; };
 		E057A6462270582C0019D13C /* EqualizersDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualizersDataBus.swift; sourceTree = "<group>"; };
 		E057A64822710F2B0019D13C /* AdvancedEqualizerDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedEqualizerDataBus.swift; sourceTree = "<group>"; };
+		AA0000020000000000000001 /* ParametricEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametricEqualizer.swift; sourceTree = "<group>"; };
+		AA0000020000000000000002 /* ParametricEqualizerPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametricEqualizerPreset.swift; sourceTree = "<group>"; };
+		AA0000020000000000000003 /* ParametricEqualizerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametricEqualizerState.swift; sourceTree = "<group>"; };
+		AA0000020000000000000004 /* ParametricEqualizerDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametricEqualizerDataBus.swift; sourceTree = "<group>"; };
+		AA0000020000000000000005 /* AutoEQParametricParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoEQParametricParser.swift; sourceTree = "<group>"; };
 		E057A64C2271A6DD0019D13C /* VolumeDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeDataBus.swift; sourceTree = "<group>"; };
 		E057A6502271A7DC0019D13C /* OutputsDataBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputsDataBus.swift; sourceTree = "<group>"; };
 		E05901ED2221F21E006B93A5 /* Sandbox.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Sandbox.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -433,6 +443,18 @@
 			path = Advanced;
 			sourceTree = "<group>";
 		};
+		AA0000030000000000000001 /* Parametric */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000020000000000000001 /* ParametricEqualizer.swift */,
+				AA0000020000000000000002 /* ParametricEqualizerPreset.swift */,
+				AA0000020000000000000003 /* ParametricEqualizerState.swift */,
+				AA0000020000000000000004 /* ParametricEqualizerDataBus.swift */,
+				AA0000020000000000000005 /* AutoEQParametricParser.swift */,
+			);
+			path = Parametric;
+			sourceTree = "<group>";
+		};
 		E0AD99DA225114C600D893F7 /* Volume */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +490,7 @@
 			children = (
 				E0AD99D22251020400D893F7 /* Basic */,
 				E0AD99D32251021100D893F7 /* Advanced */,
+				AA0000030000000000000001 /* Parametric */,
 				E044AB7521ED27E4000C41A1 /* Equalizer.swift */,
 				E0E8B62920EEB6A900DE905C /* EqualizersState.swift */,
 				E0E2CFF62104EA7A002DC989 /* Equalizers.swift */,
@@ -853,6 +876,11 @@
 				E02FF91A22C95B310051342A /* TransitionDataBus.swift in Sources */,
 				E00618E220F14C08003BA0B0 /* UIState.swift in Sources */,
 				E04E256221E23CD5002DFC2A /* AdvancedEqualizer.swift in Sources */,
+				AA0000010000000000000001 /* ParametricEqualizer.swift in Sources */,
+				AA0000010000000000000002 /* ParametricEqualizerPreset.swift in Sources */,
+				AA0000010000000000000003 /* ParametricEqualizerState.swift in Sources */,
+				AA0000010000000000000004 /* ParametricEqualizerDataBus.swift in Sources */,
+				AA0000010000000000000005 /* AutoEQParametricParser.swift in Sources */,
 				E012A4702044C4DA0029C800 /* Sysctl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

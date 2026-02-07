@@ -4,7 +4,8 @@ import { EqualizersComponent } from './equalizers.component'
 
 export const EqualizersTypes = [
   'Basic',
-  'Advanced'
+  'Advanced',
+  'Parametric'
 ] as const
 export type EqualizerType = typeof EqualizersTypes[number]
 

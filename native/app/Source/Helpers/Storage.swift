@@ -26,6 +26,9 @@ extension DefaultsKeys {
   
   // Effects - Equalizer - Advanced
   static let advancedEqualizerPresets = DefaultsKey<[AdvancedEqualizerPreset]?>("advancedEqualizerPresets")
+  
+  // Effects - Equalizer - Parametric
+  static let parametricEqualizerPresets = DefaultsKey<[ParametricEqualizerPreset]?>("parametricEqualizerPresets")
 }
 
 let Storage = Defaults

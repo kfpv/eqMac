@@ -61,6 +61,9 @@ import {
   AdvancedEqualizerComponent
 } from './sections/effects/equalizers/advanced-equalizer/advanced-equalizer.component'
 import {
+  ParametricEqualizerComponent
+} from './sections/effects/equalizers/parametric-equalizer/parametric-equalizer.component'
+import {
   VolumeBoosterBalanceComponent
 } from './sections/volume/booster-balance/volume-booster-balance.component'
 
@@ -106,6 +109,7 @@ import { UIService } from './services/ui.service'
     SystemComponent,
     BasicEqualizerComponent,
     AdvancedEqualizerComponent,
+    ParametricEqualizerComponent,
     VolumeBoosterBalanceComponent,
     SettingsComponent,
     OptionsComponent,
