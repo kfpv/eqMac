@@ -336,6 +336,9 @@ class Application {
       Async.delay(500) {
         ignoreEvents = false
         AudioDevice.currentOutputDevice = device
+        if Application.enabled {
+          startPassthrough()
+        }
       }
     }
   }
