@@ -279,7 +279,20 @@ class Application {
         }
       }
     }
-    
+
+    AudioDeviceEvents.on(.isAliveChanged) { device in
+      if ignoreEvents { return }
+      let alive = device.isAlive()
+      Console.log("isAliveChanged", device, alive)
+      if (device.id == selectedDevice?.id && !alive) {
+        ignoreEvents = true
+        removeEngines()
+        try! AudioDeviceEvents.recreateEventEmitters([.isAliveChanged, .volumeChanged, .nominalSampleRateChanged])
+        self.setupDriverDeviceEvents()
+        selectOutput(device: getLastKnowDeviceFromStack())
+      }
+    }
+
     setupDriverDeviceEvents()
   }
   
