@@ -415,24 +415,34 @@ class Application {
   }
 
   private static func getLastKnowDeviceFromStack () -> AudioDevice {
-    var device: AudioDevice?
-    if (lastKnownDeviceStack.count > 0) {
-      device = lastKnownDeviceStack.removeLast()
-    } else {
-      device = selectedDevice ?? AudioDevice.builtInOutputDevice
-    }
-    guard device != nil, device!.id != Driver.device!.id else {
-      selectedDevice = nil
-      return getLastKnowDeviceFromStack()
-    }
-
-    Console.log("Last known device: \(device!.id) - \(device!.name)")
-    guard let newDevice = Outputs.allowedDevices.first(where: { $0.id == device!.id || $0.name == device!.name }) else {
+    while lastKnownDeviceStack.count > 0 {
+      let device = lastKnownDeviceStack.removeLast()
+      if device.id == Driver.device?.id { continue }
+      Console.log("Last known device: \(device.id) - \(device.name)")
+      if let newDevice = Outputs.allowedDevices.first(where: { $0.id == device.id || $0.name == device.name }) {
+        return newDevice
+      }
       Console.log("Last known device is not currently available, trying next")
-      return getLastKnowDeviceFromStack()
     }
 
-    return newDevice
+    let fallbacks: [AudioDevice?] = [selectedDevice, AudioDevice.builtInOutputDevice]
+    selectedDevice = nil
+    for candidate in fallbacks {
+      guard let device = candidate, device.id != Driver.device?.id else { continue }
+      Console.log("Last known device: \(device.id) - \(device.name)")
+      if let newDevice = Outputs.allowedDevices.first(where: { $0.id == device.id || $0.name == device.name }) {
+        return newDevice
+      }
+      Console.log("Last known device is not currently available, trying next")
+    }
+
+    if let fallback = Outputs.allowedDevices.first(where: { $0.id != Driver.device?.id }) {
+      Console.log("Using first available output device: \(fallback.id) - \(fallback.name)")
+      return fallback
+    }
+
+    Console.log("No non-driver output device found, falling back to built-in output device")
+    return AudioDevice.builtInOutputDevice
   }
 
   private static func matchDriverSampleRateToOutput () {
