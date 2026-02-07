@@ -589,52 +589,9 @@ class Application {
   }
   
   private static func switchBackToLastKnownDevice () {
-    // If the active equalizer global gain hass been lowered we need to equalize the volume to avoid blowing people ears out
+    // Simply switch back to the last known device without touching volume
+    // The physical device should maintain its own volume setting
     let device = getLastKnowDeviceFromStack()
-
-    let globalGain = ({ () -> Double in
-      let equalizersState = store.state.effects.equalizers
-      let eqType = equalizersState.type
-
-      switch eqType {
-      case .basic:
-        if let preset = BasicEqualizer.getPreset(id: equalizersState.basic.selectedPresetId) {
-          if preset.peakLimiter {
-            let gains = preset.gains
-            let maxGain = [ gains.bass, gains.mid, gains.treble ].max()!
-            return -maxGain
-          }
-        }
-      case .advanced:
-        if let preset = AdvancedEqualizer.getPreset(id: equalizersState.advanced.selectedPresetId) {
-          return preset.gains.global
-        }
-      case .parametric:
-        if let preset = ParametricEqualizer.getPreset(id: equalizersState.parametric.selectedPresetId) {
-          return preset.preamp
-        }
-      }
-      return 0
-    })()
-
-
-    if (globalGain < 0) {
-      if (device.canSetVirtualMasterVolume(direction: .playback)) {
-        var decibels =
-          device.volumeInDecibels(channel: 0, direction: .playback)
-          ?? device.volumeInDecibels(channel: 1, direction: .playback)
-          ?? 0.5
-        decibels = decibels + Float(globalGain)
-        let newVolume = device.decibelsToScalar(volume: decibels, channel: 0, direction: .playback) ?? device.decibelsToScalar(volume: decibels, channel: 1, direction: .playback) ?? 0.1
-        device.setVirtualMasterVolume(newVolume, direction: .playback)
-      } else if (device.canSetVolume(channel: 1, direction: .playback)) {
-        var decibels = device.volumeInDecibels(channel: 1, direction: .playback)!
-        decibels = decibels + Float(globalGain)
-        for channel in 1...device.channels(direction: .playback) {
-          device.setVolume(device.decibelsToScalar(volume: decibels, channel: channel, direction: .playback)!, channel: channel, direction: .playback)
-        }
-      }
-    }
 
     Driver.name = ""
     AudioDevice.currentOutputDevice = device
