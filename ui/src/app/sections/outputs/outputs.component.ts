@@ -44,7 +44,9 @@ export class OutputsComponent implements OnInit {
           case 'virtual': return 'cog'
           default: return output.transportType
         }
-      })()
+      })();
+      // Green text for devices that have a custom EQ profile
+      (output as any).labelColor = output.hasProfile ? this.colors.accent : undefined
     }
     this.outputs = outputs
   }

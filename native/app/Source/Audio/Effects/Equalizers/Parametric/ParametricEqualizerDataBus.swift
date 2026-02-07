@@ -32,6 +32,9 @@ class ParametricEqualizerDataBus: DataBus {
         if select == true {
           let transition = data["transition"] as? Bool
           Application.dispatchAction(ParametricEqualizerAction.selectPreset(id, transition ?? false))
+          if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+            DeviceEQProfiles.saveCurrentProfile(for: uid)
+          }
         }
         return "Parametric Equalizer Preset has been updated"
       } else {
@@ -43,6 +46,9 @@ class ParametricEqualizerDataBus: DataBus {
         if select == true {
           let transition = data["transition"] as? Bool
           Application.dispatchAction(ParametricEqualizerAction.selectPreset(preset.id, transition ?? false))
+          if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+            DeviceEQProfiles.saveCurrentProfile(for: uid)
+          }
         }
         return JSON(preset.dictionary)
       }
@@ -51,6 +57,10 @@ class ParametricEqualizerDataBus: DataBus {
     self.on(.POST, "/presets/select") { data, _ in
       let preset = try self.getPreset(data)
       Application.dispatchAction(ParametricEqualizerAction.selectPreset(preset.id, true))
+      // Save profile for current device
+      if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+        DeviceEQProfiles.saveCurrentProfile(for: uid)
+      }
       return "Parametric Equalizer Preset has been set."
     }
     
@@ -59,6 +69,9 @@ class ParametricEqualizerDataBus: DataBus {
       if preset.isDefault { throw "Default Presets aren't removable." }
       ParametricEqualizer.deletePreset(preset)
       Application.dispatchAction(ParametricEqualizerAction.selectPreset("flat", true))
+      if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+        DeviceEQProfiles.saveCurrentProfile(for: uid)
+      }
       return "Parametric Equalizer Preset has been deleted."
     }
     

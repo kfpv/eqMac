@@ -21,6 +21,7 @@ export interface Output {
   name: string
   transportType: DeviceTransportType
   icon?: IconName
+  hasProfile?: boolean
 }
 @Injectable({
   providedIn: 'root'

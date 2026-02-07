@@ -82,6 +82,8 @@ class Application {
   }
   
   static var equalizersTypeChangedListener: EventListener<EqualizerType>?
+  /// When true, suppress saving EQ profile (e.g. while applying a device profile)
+  static var suppressProfileSave = false
 
   static public func start () {
     if (!Constants.DEBUG) {
@@ -122,6 +124,10 @@ class Application {
     
     equalizersTypeChangedListener = Equalizers.typeChanged.on { _ in
       if (enabled) {
+        // Save profile for current device before engine rebuild
+        if !suppressProfileSave, let uid = selectedDevice?.uid {
+          DeviceEQProfiles.saveCurrentProfile(for: uid)
+        }
         stopSave {}
         Async.delay(100) {
           setupAudio()
@@ -328,6 +334,11 @@ class Application {
       return
     }
 
+    // Save EQ profile for the previous device before switching
+    if let prevUID = selectedDevice?.uid {
+      DeviceEQProfiles.saveCurrentProfile(for: prevUID)
+    }
+
     startingPassthrough = true
     selectedDevice = AudioDevice.currentOutputDevice
 
@@ -374,6 +385,12 @@ class Application {
 
     // TODO: Figure out a better way
     Async.delay(1000) {
+      // Apply the EQ profile for the new device before creating the pipeline
+      if let newUID = selectedDevice?.uid {
+        suppressProfileSave = true
+        DeviceEQProfiles.applyProfile(for: newUID)
+        suppressProfileSave = false
+      }
       ignoreEvents = false
       createAudioPipeline()
       startingPassthrough = false

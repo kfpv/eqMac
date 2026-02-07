@@ -13,6 +13,7 @@ import EmitterKit
 
 class OutputsDataBus: DataBus {
   var outputCreatedListener: EventListener<Void>?
+  var profilesChangedListener: EventListener<Void>?
 
   required init(route: String, bridge: Bridge) {
     super.init(route: route, bridge: bridge)
@@ -44,6 +45,11 @@ class OutputsDataBus: DataBus {
 
     outputCreatedListener = Application.outputCreated.on {
       self.send(to: "/selected", data: [ "id": Application.output!.device.id ])
+    }
+
+    // Refresh device list when EQ profiles change (to update hasProfile flags)
+    profilesChangedListener = DeviceEQProfiles.profilesChanged.on {
+      self.send(to: "/devices", data: JSON(Outputs.allowedDevices.map({ $0.json })))
     }
   }
   

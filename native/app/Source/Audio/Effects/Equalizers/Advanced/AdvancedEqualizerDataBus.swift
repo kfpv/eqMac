@@ -60,6 +60,9 @@ class AdvancedEqualizerDataBus: DataBus {
         if select == true {
           let transition = data["transition"] as? Bool
           Application.dispatchAction(AdvancedEqualizerAction.selectPreset(id, transition ?? false))
+          if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+            DeviceEQProfiles.saveCurrentProfile(for: uid)
+          }
         }
         return "Advanced Equalizer Preset has been updated"
       } else {
@@ -73,6 +76,9 @@ class AdvancedEqualizerDataBus: DataBus {
         if select == true {
           let transition = data["transition"] as? Bool
           Application.dispatchAction(AdvancedEqualizerAction.selectPreset(preset.id, transition ?? false))
+          if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+            DeviceEQProfiles.saveCurrentProfile(for: uid)
+          }
         }
         return JSON(preset.dictionary)
       }
@@ -82,6 +88,10 @@ class AdvancedEqualizerDataBus: DataBus {
     self.on(.POST, "/presets/select") { data, _ in
       let preset = try self.getPreset(data)
       Application.dispatchAction(AdvancedEqualizerAction.selectPreset(preset.id, true))
+      // Save profile for current device
+      if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+        DeviceEQProfiles.saveCurrentProfile(for: uid)
+      }
       return "Advanced Equalizer Preset has been set."
     }
     
@@ -93,6 +103,9 @@ class AdvancedEqualizerDataBus: DataBus {
       
       AdvancedEqualizer.deletePreset(preset)
       Application.dispatchAction(AdvancedEqualizerAction.selectPreset("flat", true))
+      if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+        DeviceEQProfiles.saveCurrentProfile(for: uid)
+      }
       return "Advanced Equalizer Preset has been deleted."
       
     }

@@ -51,6 +51,10 @@ class EqualizersDataBus: DataBus {
         }
 
         Application.dispatchAction(EqualizersAction.setType(eqType))
+        // Save profile for current device after type change
+        if !Application.suppressProfileSave, let uid = Application.selectedDevice?.uid {
+          DeviceEQProfiles.saveCurrentProfile(for: uid)
+        }
         return "Equalizer Type has been set"
       } else {
         throw "Invalid Equalizer Type"

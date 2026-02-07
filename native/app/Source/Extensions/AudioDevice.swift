@@ -223,10 +223,12 @@ extension AudioDevice {
   }
   
   static func toJSON (_ device: AudioDevice) -> [String: AnyObject] {
+    let hasProfile = device.uid != nil && DeviceEQProfiles.configuredDeviceUIDs.contains(device.uid!)
     return [
       "id": device.id as AnyObject,
       "name": (device.sourceName ?? device.name) as AnyObject,
-      "transportType": device.transportType?.rawValue as AnyObject
+      "transportType": device.transportType?.rawValue as AnyObject,
+      "hasProfile": hasProfile as AnyObject
     ]
   }
   
